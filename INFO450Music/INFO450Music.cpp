@@ -11,7 +11,7 @@ using namespace std;
 // The songs are nodes.  Let's set that up first.
 class Song
 {
-	char artistName[30], songName[30];
+	char artistName[50], songName[50];
 	node *next;
 
 public:
@@ -20,7 +20,7 @@ public:
 	void playlistSong(char an[], char sn[]);
 	void displaySong();
 	friend class linkedList;
-	friend class songList;
+	friend class SongList;
 };
 
 node::node(int x)
@@ -48,6 +48,102 @@ void Song::displaySong()
 	printf("Song Title:\t%s\n", songName);
 	printf("By Artist:\t%s\n", artistName);
 	printf("-------------------------\n");
+}
+
+class SongList
+{
+	char fileName[1000];
+	int songCount;
+	Song **myplayList;
+
+public:
+	SongList();
+	~SongList();
+	void setFileName(char f[]);
+	int getSongCount();
+	void showSongList();
+	int saveSongList();
+	void readSongList();
+};
+
+SongList::SongList()
+{
+	myplayList = new Song*[songCount];
+}
+
+SongList::~SongList()
+{
+	delete myplayList;
+}
+
+void SongList::setFileName(char f[])
+{
+	strcpy_s(fileName, f);
+}
+
+int SongList::getSongCount()
+{
+	return songCount;
+}
+
+void SongList::showSongList()
+{
+	for (int i = 0; i < songCount; i++)
+	{
+		cout << "Song Number: " << i + 1 << endl;
+		myplayList[i]->displaySong();
+		char answer;
+		cout << "Type any character and press Enter to continue" << endl;
+		cin >> answer;
+		cin.ignore();
+		cin.clear();
+	}
+}
+
+int SongList::saveSongList()
+{
+	ofstream output(fileName);
+	if (!output)
+	{
+		cout << "You definitely did something wrong." << endl;
+		return -1;
+	}
+
+	for (int i = 0; i < songCount; i++)
+	{
+		output << myplayList[i]->artistName << ",";
+		output << myplayList[i]->songName << endl;
+	}
+
+	output.close();
+	return 0;
+}
+
+void SongList::readSongList()
+{
+	ifstream infile(fileName);
+
+	if (!infile)
+	{
+		return;
+	}
+
+	while (!infile.eof())
+	{
+		Song *ptr;
+		char aName[50];
+		char sName[50];
+
+		infile.getline(aName, 50, ',');
+		if (strlen(aName))
+		{
+			infile.getline(sName, 50);
+			ptr = new Song();
+			ptr->playlistSong(aName, sName);
+		}
+	}
+
+	infile.close();
 }
 
 // Linked List Class
