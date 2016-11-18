@@ -20,6 +20,7 @@ public:
 	void playlistSong(char an[], char sn[]);
 	void displaySong();
 	friend class linkedList;
+	friend class songList;
 };
 
 node::node(int x)
@@ -39,6 +40,16 @@ void Song::playlistSong(char an[], char sn[])
 	strcpy_s(artistName, an);
 	strcpy_s(songName, sn);
 }
+
+void Song::displaySong()
+{
+	printf("-------------------------\n");
+	printf("Currently Playing");
+	printf("Song Title:\t%s\n", songName);
+	printf("By Artist:\t%s\n", artistName);
+	printf("-------------------------\n");
+}
+
 // Linked List Class
 class LinkedList
 {
