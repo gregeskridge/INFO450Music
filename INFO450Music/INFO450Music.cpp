@@ -12,22 +12,15 @@ using namespace std;
 class Song
 {
 	char artistName[50], songName[50];
-	node *next;
 
 public:
-	node(int x);
 	Song();
 	void playlistSong(char an[], char sn[]);
 	void displaySong();
 	friend class linkedList;
 	friend class SongList;
+	friend class Node;
 };
-
-node::node(int x)
-{
-	data = x;
-	next = NULL;
-}
 
 Song::Song()
 {
@@ -64,6 +57,9 @@ public:
 	void showSongList();
 	int saveSongList();
 	void readSongList();
+	friend class LinkedList;
+	friend class Node;
+	friend class song;
 };
 
 SongList::SongList()
@@ -130,7 +126,7 @@ void SongList::readSongList()
 
 	while (!infile.eof())
 	{
-		Song *ptr;
+		Song *songPtr;
 		char aName[50];
 		char sName[50];
 
@@ -138,27 +134,50 @@ void SongList::readSongList()
 		if (strlen(aName))
 		{
 			infile.getline(sName, 50);
-			ptr = new Song();
-			ptr->playlistSong(aName, sName);
+			songPtr = new Song();
+			songPtr->playlistSong(aName, sName);
 		}
 	}
 
 	infile.close();
 }
 
+// Node Class for Linked List
+
+class Node
+{
+	int data;
+	Node *next;
+
+public:
+	Node(int x);
+	friend class LinkedList;
+	friend class Song;
+	friend class SongList;
+};
+
+Node::Node(int x)
+{
+	data = x;
+	next = NULL;
+}
+
 // Linked List Class
 class LinkedList
 {
-	node *head;
-	node *tail;
+	Node *head;
+	Node *tail;
 public:
 	LinkedList();
-	void addNodeToEnd(node *nptr);
-	void addNodeToHead(node *nptr);
-	int insertAfter(node *ptr, int i);
+	void addNodeToEnd(Node *nptr);
+	void addNodeToHead(Node *nptr);
+	int insertAfter(Node *ptr, int i);
 	int removeNode(int i);
 	void showList();
-	node * findItem(int i);
+	Node * findItem(int i);
+	friend class Node;
+	friend class Song;
+	friend class SongList;
 };
 
 LinkedList::LinkedList()
@@ -171,10 +190,10 @@ LinkedList::LinkedList()
 void LinkedList::showList()
 {
 	char answer;
-	node *ptr;
+	Node *ptr;
 	ptr = head;
 	
-	cout << "****  List Contents *****" << endl;
+	cout << "****  Play Song *****" << endl;
 	
 	if (ptr == NULL)
 	{
@@ -185,8 +204,8 @@ void LinkedList::showList()
 	cout << "The current song is" << head->data << " tail is " << tail->data << ")" << endl;
 	cout << "Press any key and Enter to move to the next song." << endl;
 	cin >> answer;
-	cin.clear;
-	cin.ignore;
+	cin.ignore();
+	cin.clear();
 
 	while (ptr != NULL)
 	{
@@ -195,7 +214,7 @@ void LinkedList::showList()
 	}
 }
 
-void LinkedList::addNodeToEnd(node *ptr)
+void LinkedList::addNodeToEnd(Node *ptr)
 {
 	// if list is empty
 	if (head == NULL)
@@ -210,7 +229,7 @@ void LinkedList::addNodeToEnd(node *ptr)
 	}
 }
 
-void LinkedList::addNodeToHead(node *ptr)
+void LinkedList::addNodeToHead(Node *ptr)
 {
 	if (head == NULL)
 	{
@@ -224,9 +243,9 @@ void LinkedList::addNodeToHead(node *ptr)
 	}
 }
 
-int LinkedList::insertAfter(node *newnode, int i)
+int LinkedList::insertAfter(Node *newnode, int i)
 {
-	node *ptr = head;
+	Node *ptr = head;
 	while (ptr != NULL)
 	{
 		if (ptr->data == i) // we found the node to insert after
@@ -242,9 +261,9 @@ int LinkedList::insertAfter(node *newnode, int i)
 	return -1;
 }
 
-node * LinkedList::findItem(int i)
+Node * LinkedList::findItem(int i)
 {
-	node *ptr;
+	Node *ptr;
 	ptr = head;
 	while (ptr != NULL)
 	{
@@ -263,7 +282,7 @@ node * LinkedList::findItem(int i)
 
 int LinkedList::removeNode(int i)
 {
-	node *ptr = head;
+	Node *ptr = head;
 	if (ptr == NULL)  // empty list
 		return -1;
 
@@ -288,7 +307,7 @@ int LinkedList::removeNode(int i)
 		{
 			if (tail == ptr->next)
 				tail = ptr;
-			node *tbd = ptr->next;
+			Node *tbd = ptr->next;
 			ptr->next = (ptr->next)->next;
 			delete tbd;
 			return 0;
@@ -307,27 +326,27 @@ int main()
 	Song *songCount;
 
 	//ptr for the Song List
-	Song *slist = new SongList();
+	SongList *sList = new SongList();
 	
 	// Get the filename with the song list
 	cout << "Please enter the full path filname for your playlist." << endl;
 	gets_s(fileName);
 	sList->setFileName(fileName);
 
-	LinkedList *mylist = new linkedList();
+	LinkedList *mylist = new LinkedList();
 	// test if list is empty
 	if (mylist->removeNode(42))
 		cout << "failed to remove" << endl;
-	node *newnode = new node(4);
+	Node *newnode = new Node(4);
 	mylist->addNodeToEnd(newnode);
 	mylist->showList();
-	mylist->addNodeToEnd(new node(3));
+	mylist->addNodeToEnd(new Node(3));
 	mylist->showList();
-	mylist->addNodeToEnd(new node(20));
+	mylist->addNodeToEnd(new Node(20));
 	mylist->showList();
-	mylist->addNodeToHead(new node(42));
+	mylist->addNodeToHead(new Node(42));
 	mylist->showList();
-	mylist->insertAfter(new node(11), 3);
+	mylist->insertAfter(new Node(11), 3);
 	mylist->showList();
 	if (mylist->removeNode(42))
 		cout << "failed to remove" << endl;
