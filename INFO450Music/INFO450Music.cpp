@@ -9,51 +9,13 @@
 using namespace std;
 
 // The songs are nodes.  Let's set that up first.
-class Song
-{
-	char artistName[50], songName[50];
-
-public:
-	Song();
-	void playlistSong(char an[], char sn[]);
-	void displaySong();
-	friend class linkedList;
-	friend class SongList;
-	friend class Node;
-};
-
-Song::Song()
-{
-	strcpy_s(artistName, "");
-	strcpy_s(songName, "");
-}
-
-void Song::playlistSong(char an[], char sn[])
-{
-	strcpy_s(artistName, an);
-	strcpy_s(songName, sn);
-}
-
-void Song::displaySong()
-{
-	printf("-------------------------\n");
-	printf("Currently Playing");
-	printf("Song Title:\t%s\n", songName);
-	printf("By Artist:\t%s\n", artistName);
-	printf("-------------------------\n");
-}
-
 class SongList
 {
-	char fileName[1000];
-	int songCount;
 	Song **myplayList;
 
 public:
 	SongList();
 	~SongList();
-	void setFileName(char f[]);
-	int getSongCount();
 	void showSongList();
 	int saveSongList();
 	void readSongList();
@@ -70,16 +32,6 @@ SongList::SongList()
 SongList::~SongList()
 {
 	delete myplayList;
-}
-
-void SongList::setFileName(char f[])
-{
-	strcpy_s(fileName, f);
-}
-
-int SongList::getSongCount()
-{
-	return songCount;
 }
 
 void SongList::showSongList()
@@ -146,29 +98,50 @@ void SongList::readSongList()
 
 class Node
 {
-	int data;
+	char artistName[50];
+	char songName[50];
 	Node *next;
 
 public:
-	Node(int x);
+	Node();
+	void playlistSong(char aN[], char sN[]);
+	void displaySong();
 	friend class LinkedList;
-	friend class Song;
 	friend class SongList;
 };
 
-Node::Node(int x)
+void Node::playlistSong(char aN[], char sN[])
 {
-	data = x;
-	next = NULL;
+	strcpy_s(artistName, aN);
+	strcpy_s(songName, sN);
+}
+
+void Node::displaySong()
+{
+	printf("-------------------------\n");
+	printf("Currently Playing");
+	printf("Song Title:\t%s\n", songName);
+	printf("By Artist:\t%s\n", artistName);
+	printf("-------------------------\n");
+}
+
+Node::Node()
+{
+	strcpy_s(artistName, "");
+	strcpy_s(songName, "");
 }
 
 // Linked List Class
 class LinkedList
 {
+	char fileName[100];
+	int songCount;
 	Node *head;
 	Node *tail;
 public:
 	LinkedList();
+	void setFileName(char f[]);
+	int getSongCount();
 	void addNodeToEnd(Node *nptr);
 	void addNodeToHead(Node *nptr);
 	int insertAfter(Node *ptr, int i);
@@ -176,7 +149,6 @@ public:
 	void showList();
 	Node * findItem(int i);
 	friend class Node;
-	friend class Song;
 	friend class SongList;
 };
 
@@ -184,6 +156,16 @@ LinkedList::LinkedList()
 {
 	head = NULL;
 	tail = NULL;
+}
+
+void LinkedList::setFileName(char f[])
+{
+	strcpy_s(fileName, f);
+}
+
+int LinkedList::getSongCount()
+{
+	return songCount;
 }
 
 // This is where the magic is going to happen...
@@ -323,7 +305,7 @@ int main()
 	char artistName[30];
 	char songName[30];
 	char fileName[50];
-	Song *songCount;
+	SongList *songCount;
 
 	//ptr for the Song List
 	SongList *sList = new SongList();
@@ -333,35 +315,37 @@ int main()
 	gets_s(fileName);
 	sList->setFileName(fileName);
 
+	sList->readSongList;
+
 	LinkedList *mylist = new LinkedList();
 	// test if list is empty
-	if (mylist->removeNode(42))
-		cout << "failed to remove" << endl;
-	Node *newnode = new Node(4);
-	mylist->addNodeToEnd(newnode);
-	mylist->showList();
-	mylist->addNodeToEnd(new Node(3));
-	mylist->showList();
-	mylist->addNodeToEnd(new Node(20));
-	mylist->showList();
-	mylist->addNodeToHead(new Node(42));
-	mylist->showList();
-	mylist->insertAfter(new Node(11), 3);
-	mylist->showList();
-	if (mylist->removeNode(42))
-		cout << "failed to remove" << endl;
-	if (mylist->removeNode(11))
-		cout << "failed to remove" << endl;
-	if (mylist->removeNode(33))
-		cout << "failed to remove" << endl;
-	if (mylist->removeNode(20))
-		cout << "failed to remove" << endl;
-	mylist->showList();
-	if (mylist->findItem(2))
-		cout << "found it";
-	if (mylist->findItem(3))
-		cout << "found it";
-
+	for (int i = 0; i < songCount; i++)
+	{
+		Node *newnode = new Node(sList->showSongList);
+		mylist->addNodeToEnd();
+		mylist->showList();
+		mylist->addNodeToEnd(new Node(3));
+		mylist->showList();
+		mylist->addNodeToEnd(new Node(20));
+		mylist->showList();
+		mylist->addNodeToHead(new Node(42));
+		mylist->showList();
+		mylist->insertAfter(new Node(11), 3);
+		mylist->showList();
+		if (mylist->removeNode(42))
+			cout << "failed to remove" << endl;
+		if (mylist->removeNode(11))
+			cout << "failed to remove" << endl;
+		if (mylist->removeNode(33))
+			cout << "failed to remove" << endl;
+		if (mylist->removeNode(20))
+			cout << "failed to remove" << endl;
+		mylist->showList();
+		if (mylist->findItem(2))
+			cout << "found it";
+		if (mylist->findItem(3))
+			cout << "found it";
+	}
 
 	return 0;
 }
