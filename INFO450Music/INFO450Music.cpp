@@ -100,6 +100,7 @@ void LinkedList::showSongList()
 
 void LinkedList::readSongList()
 {
+
 	ifstream infile(fileName);
 
 	if (!infile)
@@ -110,7 +111,6 @@ void LinkedList::readSongList()
 
 	while (!infile.eof())
 	{
-		Node *songPtr;
 		char aName[50];
 		char sName[50];
 
@@ -118,7 +118,7 @@ void LinkedList::readSongList()
 		if (strlen(aName))
 		{
 			infile.getline(sName, 50);
-			songPtr = new Node();
+			Node *songPtr = new Node();
 			songPtr->playlistSong(aName, sName);
 		}
 	}
@@ -134,6 +134,7 @@ void LinkedList::showList()
 	ptr = head;
 	
 	cout << "****  AwesomeSauce MyPod Version RnR.0 ****" << endl;
+	
 	if (ptr == NULL)
 	{
 		cout << "... Nevermind... The playlist is empty... " << endl;
@@ -295,8 +296,12 @@ int LinkedList::removeNode(char a[])
 
 int main()
 {
+	/*char fileName[100];
+	cout << "Please enter in the full path filename of your playlist please." << endl;
+	gets_s(fileName);*/
 	LinkedList *navigation = new LinkedList();
 	navigation->getFileName();
+	//navigation->setFileName();
 	navigation->readSongList();	
 	navigation->showList();
 //	Node *songPtr;
