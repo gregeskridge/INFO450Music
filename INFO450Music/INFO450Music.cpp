@@ -45,7 +45,6 @@ class LinkedList
 	Node *tail;
 public:
 	LinkedList();
-	//char getFileName();
 	void setFileName(char f[]);
 	int getSongCount();
 	void showSongList();
@@ -65,21 +64,9 @@ LinkedList::LinkedList()
 	tail = NULL;
 }
 
-//char LinkedList::getFileName()
-//{
-//	
-//	char fileName[100];
-//	cout << "Please enter in the full path filename of your playlist please." << endl;
-//	cin >> fileName;
-//	cout << "FileName: " << fileName << endl;
-//	//setFileName(fileName);
-//	return fileName[100];
-//}
-
 void LinkedList::setFileName(char f[])
 {
 	strcpy_s(fileName, f);
-	cout << "FileName: " << fileName << endl;
 }
 
 int LinkedList::getSongCount()
@@ -104,7 +91,6 @@ void LinkedList::readSongList()
 {
 	//getFileName();
 	ifstream infile(fileName);
-	cout << "FileName: " << fileName << endl;
 
 	if (!infile)
 	{
@@ -135,11 +121,11 @@ void LinkedList::showList()
 {
 	char answer;
 	Node *ptr;
+	LinkedList *next;
 	ptr = head;
 	
 	cout << "****  AwesomeSauce MyPod Version RnR.0 ****" << endl;
-	cout << "FileName: " << fileName << endl;
-	cout << "Pointer: " << ptr << endl;
+
 	if (ptr == NULL)
 	{
 		cout << "... Nevermind... The playlist is empty... " << endl;
@@ -149,18 +135,18 @@ void LinkedList::showList()
 	else
 	{
 		printf("*****  *****  *****  *****  *****\n");
-		printf("Currently Playing");
+		printf("Currently Playing\n");
 		printf("Song Title:\t%s\n", ptr->songName);
 		printf("By Artist:\t%s\n", ptr->artistName);
 		printf("*****  *****  *****  *****  *****\n");
-		printf("");
-		printf("That's a pretty rocking song, lady!");
-		printf("");
-		printf("So, what should we do next?  There are oh so many possibilities!");
-		printf("To (S)kip to the next rocking song, press 'S' and enter.");
-		printf("To (D)elete this uber lame-o song, press 'D' and enter.");
-		printf("To (Q)uit and switch to a podcast, press 'Q' and enter.");
-		//printf("To (A)dd a new song to the list, press 'A' and enter.");
+		printf("\n");
+		printf("That's a pretty rocking song, lady!\n");
+		printf("\n");
+		printf("So, what should we do next?  There are oh so many possibilities!\n");
+		printf("To (S)kip to the next rocking song, press 'S' and enter.\n");
+		printf("To (D)elete this uber lame-o song, press 'D' and enter.\n");
+		printf("To (Q)uit and switch to a podcast, press 'Q' and enter.\n");
+		//printf("To (A)dd a new song to the list, press 'A' and enter.\n");
 
 		cin >> answer;
 		cin.ignore();
@@ -171,7 +157,8 @@ void LinkedList::showList()
 			while (ptr != NULL)
 			{
 				ptr = ptr->next;
-				showList();
+				readSongList();
+				showList();				
 			}
 		}
 
@@ -310,9 +297,7 @@ int main()
 	char fileName[100];
 	cout << "Please enter in the full path filename of your playlist please." << endl;
 	gets_s(fileName);
-	cout << "FileName: " << fileName << endl;
 	LinkedList *navigation = new LinkedList();
-	//navigation->getFileName();
 	navigation->setFileName(fileName);
 	navigation->readSongList();	
 	navigation->showList();
