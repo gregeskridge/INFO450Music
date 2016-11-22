@@ -21,7 +21,6 @@ public:
 	Node();
 	void playlistSong(char aN[], char sN[]);
 	friend class LinkedList;
-	friend class SongList;
 };
 
 void Node::playlistSong(char aN[], char sN[])
@@ -42,10 +41,11 @@ class LinkedList
 	char fileName[100];
 	int songCount;
 	Node *head;
+
 	Node *tail;
 public:
 	LinkedList();
-	void getFileName();
+	//char getFileName();
 	void setFileName(char f[]);
 	int getSongCount();
 	void showSongList();
@@ -57,7 +57,6 @@ public:
 	void showList();
 	Node * findItem(char i[]);
 	friend class Node;
-	friend class SongList;
 };
 
 LinkedList::LinkedList()
@@ -66,18 +65,21 @@ LinkedList::LinkedList()
 	tail = NULL;
 }
 
-void LinkedList::getFileName()
-{
-	
-	char fileName[100];
-	cout << "Please enter in the full path filename of your playlist please." << endl;
-	gets_s(fileName);
-	setFileName(fileName);
-}
+//char LinkedList::getFileName()
+//{
+//	
+//	char fileName[100];
+//	cout << "Please enter in the full path filename of your playlist please." << endl;
+//	cin >> fileName;
+//	cout << "FileName: " << fileName << endl;
+//	//setFileName(fileName);
+//	return fileName[100];
+//}
 
 void LinkedList::setFileName(char f[])
 {
 	strcpy_s(fileName, f);
+	cout << "FileName: " << fileName << endl;
 }
 
 int LinkedList::getSongCount()
@@ -100,8 +102,9 @@ void LinkedList::showSongList()
 
 void LinkedList::readSongList()
 {
-
+	//getFileName();
 	ifstream infile(fileName);
+	cout << "FileName: " << fileName << endl;
 
 	if (!infile)
 	{
@@ -120,6 +123,7 @@ void LinkedList::readSongList()
 			infile.getline(sName, 50);
 			Node *songPtr = new Node();
 			songPtr->playlistSong(aName, sName);
+			head = songPtr;
 		}
 	}
 
@@ -134,60 +138,67 @@ void LinkedList::showList()
 	ptr = head;
 	
 	cout << "****  AwesomeSauce MyPod Version RnR.0 ****" << endl;
-	
+	cout << "FileName: " << fileName << endl;
+	cout << "Pointer: " << ptr << endl;
 	if (ptr == NULL)
 	{
 		cout << "... Nevermind... The playlist is empty... " << endl;
 		return;
 	}
 	
-	printf("*****  *****  *****  *****  *****\n");
-	printf("Currently Playing");
-	printf("Song Title:\t%s\n", ptr->songName);
-	printf("By Artist:\t%s\n", ptr->artistName);
-	printf("*****  *****  *****  *****  *****\n");
-	printf("");
-	printf("That's a pretty rocking song, lady!");
-	printf("");
-	printf("So, what should we do next?  There are oh so many possibilities!");
-	printf("To (S)kip to the next rocking song, press 'S' and enter.");
-	printf("To (D)elete this uber lame-o song, press 'D' and enter.");
-	printf("To (Q)uit and switch to a podcast, press 'Q' and enter.");
-	//printf("To (A)dd a new song to the list, press 'A' and enter.");
-
-	cin >> answer;
-	cin.ignore();
-	cin.clear();
-
-	if (answer == 'S' || answer == 's')
+	else
 	{
-		while (ptr != NULL)
+		printf("*****  *****  *****  *****  *****\n");
+		printf("Currently Playing");
+		printf("Song Title:\t%s\n", ptr->songName);
+		printf("By Artist:\t%s\n", ptr->artistName);
+		printf("*****  *****  *****  *****  *****\n");
+		printf("");
+		printf("That's a pretty rocking song, lady!");
+		printf("");
+		printf("So, what should we do next?  There are oh so many possibilities!");
+		printf("To (S)kip to the next rocking song, press 'S' and enter.");
+		printf("To (D)elete this uber lame-o song, press 'D' and enter.");
+		printf("To (Q)uit and switch to a podcast, press 'Q' and enter.");
+		//printf("To (A)dd a new song to the list, press 'A' and enter.");
+
+		cin >> answer;
+		cin.ignore();
+		cin.clear();
+
+		if (answer == 'S' || answer == 's')
 		{
-			ptr = ptr->next;
+			while (ptr != NULL)
+			{
+				ptr = ptr->next;
+				showList();
+			}
+		}
+
+		else if (answer == 'D' || answer == 'd')
+		{
+			removeNode(ptr->artistName);
 			showList();
+		}
+
+		else if (answer == 'Q' || answer == 'q')
+		{
+			printf("Have a nice day, lady.");
+		}
+
+		/*else if (answer == 'A' || answer == 'a')
+		{
+			LinkedList *addedSong = new LinkedList;
+			cout << "Atrist Name? " << endl;
+			addedSong->insertAfter(ptr->artistName, ptr->songName);
+		}*/
+
+		else
+		{
+			return;
 		}
 	}
 
-	else if (answer == 'D' || answer == 'd')
-	{
-		removeNode(ptr->artistName);
-		showList();
-	}
-
-	else if (answer == 'Q' || answer == 'q')
-	{
-		printf("Have a nice day, lady.");
-	}
-
-	/*else if (answer == 'A' || answer == 'a')
-	{
-		LinkedList *addedSong = new LinkedList;
-		cout << "Atrist Name? " << endl;
-		addedSong->insertAfter(ptr->artistName, ptr->songName);
-	}*/
-
-	else
-		return;
 }
 
 void LinkedList::addNodeToEnd(Node *ptr)
@@ -296,12 +307,13 @@ int LinkedList::removeNode(char a[])
 
 int main()
 {
-	/*char fileName[100];
+	char fileName[100];
 	cout << "Please enter in the full path filename of your playlist please." << endl;
-	gets_s(fileName);*/
+	gets_s(fileName);
+	cout << "FileName: " << fileName << endl;
 	LinkedList *navigation = new LinkedList();
-	navigation->getFileName();
-	//navigation->setFileName();
+	//navigation->getFileName();
+	navigation->setFileName(fileName);
 	navigation->readSongList();	
 	navigation->showList();
 //	Node *songPtr;
