@@ -109,7 +109,7 @@ void LinkedList::readSongList()
 			infile.getline(sName, 50);
 			Node *songPtr = new Node();
 			songPtr->playlistSong(aName, sName);
-			head = songPtr;
+			this->addNodeToEnd(songPtr);
 		}
 	}
 
@@ -132,7 +132,7 @@ void LinkedList::showList()
 		return;
 	}
 	
-	else
+	while (ptr != NULL)
 	{
 		printf("*****  *****  *****  *****  *****\n");
 		printf("Currently Playing\n");
@@ -154,16 +154,13 @@ void LinkedList::showList()
 
 		if (answer == 'S' || answer == 's')
 		{
-			while (ptr != NULL)
-			{
 				ptr = ptr->next;
-				readSongList();
-				showList();				
-			}
 		}
 
 		else if (answer == 'D' || answer == 'd')
 		{
+
+			ptr = ptr->next;
 			removeNode(ptr->artistName);
 			showList();
 		}
@@ -180,12 +177,7 @@ void LinkedList::showList()
 			addedSong->insertAfter(ptr->artistName, ptr->songName);
 		}*/
 
-		else
-		{
-			return;
-		}
 	}
-
 }
 
 void LinkedList::addNodeToEnd(Node *ptr)
