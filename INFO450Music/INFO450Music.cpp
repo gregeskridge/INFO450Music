@@ -144,8 +144,8 @@ void LinkedList::showList()
 
 		else if (answer == 'D' || answer == 'd')
 		{
-			this->removeNode(ptr->artistName);
-
+			this->removeNode(ptr->artistName);;
+			ptr = head;
 		}
 
 		/*else if (answer == 'A' || answer == 'a')
@@ -159,6 +159,8 @@ void LinkedList::showList()
 		else if (answer == 'Q' || answer == 'q')
 		{
 			printf("Have a nice day, lady.");
+			cout << " " << endl;
+			break;
 		}
 	}
 }
@@ -236,7 +238,7 @@ int LinkedList::removeNode(char a[])
 		return -1;
 
 	// if node is at the head
-	if (strlen(head->artistName))
+	if (strcmp(head->artistName, a) == 0)
 	{
 		//if only 1 node in the list
 		if (head == tail)
@@ -253,7 +255,7 @@ int LinkedList::removeNode(char a[])
 
 	while (ptr != NULL)
 	{
-		if (ptr->next && (strlen((ptr->next)->artistName)))
+		if (ptr->next && (strcmp((ptr->next)->artistName, a) == 0))
 		{
 			if (tail == ptr->next)
 				tail = ptr;
