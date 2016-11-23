@@ -47,7 +47,6 @@ public:
 	LinkedList();
 	void setFileName(char f[]);
 	int getSongCount();
-	void showSongList();
 	void readSongList();
 	void addNodeToEnd(Node *nptr);
 	void addNodeToHead(Node *nptr);
@@ -55,7 +54,6 @@ public:
 	int removeNode(char a[]);
 	void showList();
 	Node * findItem(char i[]);
-	friend class Node;
 };
 
 LinkedList::LinkedList()
@@ -72,19 +70,6 @@ void LinkedList::setFileName(char f[])
 int LinkedList::getSongCount()
 {
 	return songCount;
-}
-
-void LinkedList::showSongList()
-{
-	for (int i = 0; i < songCount; i++)
-	{
-		cout << "Song Number: " << i + 1 << endl;
-		char answer;
-		cout << "Type any character and press Enter to continue" << endl;
-		cin >> answer;
-		cin.ignore();
-		cin.clear();
-	}
 }
 
 void LinkedList::readSongList()
@@ -159,15 +144,8 @@ void LinkedList::showList()
 
 		else if (answer == 'D' || answer == 'd')
 		{
+			this->removeNode(ptr->artistName);
 
-			ptr = ptr->next;
-			removeNode(ptr->artistName);
-			showList();
-		}
-
-		else if (answer == 'Q' || answer == 'q')
-		{
-			printf("Have a nice day, lady.");
 		}
 
 		/*else if (answer == 'A' || answer == 'a')
@@ -177,6 +155,11 @@ void LinkedList::showList()
 			addedSong->insertAfter(ptr->artistName, ptr->songName);
 		}*/
 
+
+		else if (answer == 'Q' || answer == 'q')
+		{
+			printf("Have a nice day, lady.");
+		}
 	}
 }
 
