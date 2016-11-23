@@ -120,7 +120,7 @@ void LinkedList::showList()
 	while (ptr != NULL)
 	{
 		printf("*****  *****  *****  *****  *****\n");
-		printf("Currently Playing\n");
+		printf("Current Song Ready to Play\n");
 		printf("Song Title:\t%s\n", ptr->songName);
 		printf("By Artist:\t%s\n", ptr->artistName);
 		printf("*****  *****  *****  *****  *****\n");
@@ -128,6 +128,7 @@ void LinkedList::showList()
 		printf("That's a pretty rocking song, lady!\n");
 		printf("\n");
 		printf("So, what should we do next?  There are oh so many possibilities!\n");
+		printf("To (P)lay the current song, press 'P' and enter.\n");
 		printf("To (S)kip to the next rocking song, press 'S' and enter.\n");
 		printf("To (D)elete this uber lame-o song, press 'D' and enter.\n");
 		printf("To (Q)uit and switch to a podcast, press 'Q' and enter.\n");
@@ -137,6 +138,27 @@ void LinkedList::showList()
 		cin.ignore();
 		cin.clear();
 
+		if (answer == 'P' || answer == 'p')
+		{
+			cout << "Great!  Your song is playing." << endl;
+			cout << " " << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << " " << endl;
+			cout << "There's nothing like a good song by " << ptr->artistName << endl;
+			cout << " " << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << " " << endl;
+			cout <<	"It just feels right." << endl;
+			cout << " " << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << "Dooo doooo doodooddoo doooooooo" << endl;
+			cout << " " << endl;
+			cout << "And....... that's the end of the song." << endl;
+			cout << " " << endl;
+			cout << " " << endl;
+		}
 		if (answer == 'S' || answer == 's')
 		{
 				ptr = ptr->next;
