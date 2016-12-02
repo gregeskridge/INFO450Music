@@ -166,8 +166,18 @@ void LinkedList::showList()
 
 		else if (answer == 'D' || answer == 'd')
 		{
-			this->removeNode(ptr->artistName);
-			ptr = head;
+			Node * tbd = ptr;
+			if (ptr == tail)
+			{
+				ptr = NULL;
+			}
+
+			else
+			{
+				ptr = ptr->next;
+			}
+			this->removeNode(tbd->songName);
+
 		}
 
 		/*else if (answer == 'A' || answer == 'a')
@@ -260,7 +270,7 @@ int LinkedList::removeNode(char a[])
 		return -1;
 
 	// if node is at the head
-	if (strcmp(head->artistName, a) == 0)
+	if (strcmp(head->songName, a) == 0)
 	{
 		//if only 1 node in the list
 		if (head == tail)
@@ -277,8 +287,9 @@ int LinkedList::removeNode(char a[])
 
 	while (ptr != NULL)
 	{
-		if (ptr->next && (strcmp((ptr->next)->artistName, a) == 0))
+		if (ptr->next && (strcmp((ptr->next)->songName, a) == 0))
 		{
+
 			if (tail == ptr->next)
 				tail = ptr;
 			Node *tbd = ptr->next;
