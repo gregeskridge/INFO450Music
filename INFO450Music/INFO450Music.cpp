@@ -166,7 +166,7 @@ void LinkedList::showList()
 
 		else if (answer == 'D' || answer == 'd')
 		{
-			this->removeNode(ptr->artistName);;
+			this->removeNode(ptr->artistName);
 			ptr = head;
 		}
 
@@ -299,7 +299,10 @@ int main()
 	LinkedList *navigation = new LinkedList();
 	navigation->setFileName(fileName);
 	navigation->readSongList();	
-	navigation->showList();
+	for (;;)
+	{
+		navigation->showList();
+	}
 //	Node *songPtr;
 	return 0;
 
